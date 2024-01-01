@@ -1,4 +1,4 @@
-package guru.springframework.spring6restmvc.model.servies;
+package guru.springframework.spring6restmvc.services;
 
 import guru.springframework.spring6restmvc.model.Beer;
 
