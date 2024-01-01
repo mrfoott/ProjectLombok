@@ -4,6 +4,7 @@ import guru.springframework.spring6restmvc.model.Beer;
 import guru.springframework.spring6restmvc.services.BeerService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,7 +27,11 @@ public class BeerController {
 
         Beer savedBeer = beerService.saveNewBeer(beer);
 
-        return new ResponseEntity(HttpStatus.CREATED);
+        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.add("Con Moe", "Con Moe");
+        httpHeaders.add("Location", "/api/v1/beer/" + savedBeer.getId());
+
+        return new ResponseEntity(httpHeaders, HttpStatus.CREATED);
 
     }
 
