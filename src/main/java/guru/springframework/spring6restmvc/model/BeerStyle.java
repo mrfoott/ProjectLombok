@@ -1,2 +1,4 @@
-package guru.springframework.spring6restmvc.model;public class BeerStyle {
+package guru.springframework.spring6restmvc.model;
+
+public class BeerStyle {
 }
