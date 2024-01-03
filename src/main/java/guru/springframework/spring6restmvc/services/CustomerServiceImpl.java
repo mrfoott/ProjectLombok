@@ -15,7 +15,7 @@ public class CustomerServiceImpl implements CustomerService {
     private Map<UUID, Customer> customerMap;
 
     @Override
-    public void patchCustomerId(UUID userId, Customer customer) {
+    public void patchUserById(UUID userId, Customer customer) {
         Customer existing = customerMap.get(userId);
 
         if (StringUtils.hasText(customer.getName())) {
@@ -24,7 +24,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void deleteById(UUID userId) {
+    public void deleteUserById(UUID userId) {
         customerMap.remove(userId);
     }
 
@@ -65,12 +65,12 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer getCustomerById(UUID id) {
+    public Customer getUserById(UUID id) {
         return customerMap.get(id);
     }
 
     @Override
-    public Customer savedNewCustomer(Customer customer) {
+    public Customer savedNewUser(Customer customer) {
         Customer savedCustomer = Customer.builder()
                 .id(UUID.randomUUID())
                 .name(customer.getName())

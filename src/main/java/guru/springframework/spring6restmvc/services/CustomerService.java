@@ -9,13 +9,13 @@ public interface CustomerService {
 
     List<Customer> getAllCustomer();
 
-    Customer getCustomerById(UUID id);
+    Customer getUserById(UUID id);
 
-    Customer savedNewCustomer(Customer customer);
+    Customer savedNewUser(Customer customer);
 
     void updateUserById(UUID id, Customer customer);
 
-    void deleteById(UUID userId);
+    void deleteUserById(UUID userId);
 
-    void patchCustomerId(UUID userId, Customer customer);
+    void patchUserById(UUID userId, Customer customer);
 }
