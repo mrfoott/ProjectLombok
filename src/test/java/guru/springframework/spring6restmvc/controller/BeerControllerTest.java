@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -61,16 +62,6 @@ class BeerControllerTest {
     Beer beer;
 
 //    Beer beer = beerServiceImpl.listBeers().get(0);
-
-    @Test
-    void getBeerByIdNotFound() throws Exception {
-
-        given(beerService.getBeerById(any(UUID.class))).willThrow(NotFoundException.class);
-
-        mockMvc.perform(get(BeerController.BEER_ID_PATH, UUID.randomUUID()))
-                .andExpect(status().isNotFound());
-
-    }
 
     @Test
     void testPatchBeer() throws Exception {
@@ -158,10 +149,28 @@ class BeerControllerTest {
     }
 
     @Test
+    void getBeerByIdNotFound() throws Exception {
+
+        given(beerService.getBeerById(any(UUID.class))).willReturn(Optional.empty());
+
+        mockMvc.perform(get(BeerController.BEER_ID_PATH, UUID.randomUUID()))
+                .andExpect(status().isNotFound());
+
+    }
+
+    @Test
+    void getBeerListNotFound() throws Exception {
+        given(beerService.listBeers()).willThrow(NotFoundException.class);
+
+        mockMvc.perform(get(BeerController.BEER_PATH))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     void getBeerById() throws Exception {
 //        Beer beer = beerServiceImpl.listBeers().get(0);
 
-        given(beerService.getBeerById(beer.getId())).willReturn(beer);
+        given(beerService.getBeerById(beer.getId())).willReturn(Optional.of(beer));
 
         mockMvc.perform(get(BeerController.BEER_ID_PATH, beer.getId())
                         .accept(MediaType.APPLICATION_JSON))

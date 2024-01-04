@@ -49,7 +49,7 @@ public class CustomerController {
     @GetMapping(value = CUSTOMER_ID_PATH)
     public Customer getCustomerById(@PathVariable("userId") UUID userId) {
 
-        return customerService.getUserById(userId);
+        return customerService.getUserById(userId).orElseThrow(NotFoundException::new);
 
     }
 
@@ -60,7 +60,7 @@ public class CustomerController {
 
         HttpHeaders httpHeaders = new HttpHeaders();
 //        httpHeaders.add("Con Moe", "Con Moe");
-        httpHeaders.add("Location", CustomerController.CUSTOMER_PATH + "/" + savedCustomer.getId());
+        httpHeaders.add("Location", CustomerController.CUSTOMER_PATH + "/" + savedCustomer.getId().toString());
 
         return new ResponseEntity(httpHeaders, HttpStatus.CREATED);
 

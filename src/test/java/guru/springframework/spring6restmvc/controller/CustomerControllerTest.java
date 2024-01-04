@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -61,10 +62,6 @@ public class CustomerControllerTest {
         customerServiceImpl = new CustomerServiceImpl();
         customer = customerServiceImpl.getAllCustomer().get(0);
     }
-
-//    String userPath = "/api/v1/user";
-//    String userIdPath = userPath + "/" + customer.getId();
-
 
     @Test
     void testPatchCustomer() throws Exception {
@@ -115,8 +112,9 @@ public class CustomerControllerTest {
                         .content(objectMapper.writeValueAsString(customer)))
                         .andExpect(status().isNoContent());
 
-        verify(customerService).updateUserById(any(UUID.class), any(Customer.class));
+        verify(customerService).updateUserById(uuidArgumentCaptor.capture(), any(Customer.class));
 
+        assertThat(customer.getId()).isEqualTo(uuidArgumentCaptor.getValue());
     }
 
     @Test
@@ -151,13 +149,24 @@ public class CustomerControllerTest {
 
     }
 
+
     @Test
-    void getCustomerById() throws Exception {
+    void getUserByIdNotFound() throws Exception {
+
+        given(customerService.getUserById(any(UUID.class))).willReturn(Optional.empty());
+
+        mockMvc.perform(get(CustomerController.CUSTOMER_ID_PATH, UUID.randomUUID()))
+                .andExpect(status().isNotFound());
+
+    }
+
+    @Test
+    void getUserById() throws Exception {
 //        System.out.println(customerController.getCustomerById(UUID.randomUUID()));
 
 //        Customer testCustomer = customerServiceImpl.getAllCustomer().get(0);
 
-        given(customerService.getUserById(customer.getId())).willReturn(customer);
+        given(customerService.getUserById(customer.getId())).willReturn(Optional.of(customer));
 
         mockMvc.perform(get(CustomerController.CUSTOMER_ID_PATH, customer.getId())
                         .accept(MediaType.APPLICATION_JSON))
@@ -168,13 +177,5 @@ public class CustomerControllerTest {
 
     }
 
-    @Test
-    void getUserByIdNotFound() throws Exception {
 
-        given(customerService.getUserById(any(UUID.class))).willThrow(NotFoundException.class);
-
-        mockMvc.perform(get(CustomerController.CUSTOMER_ID_PATH, UUID.randomUUID()))
-                .andExpect(status().isNotFound());
-
-    }
 }

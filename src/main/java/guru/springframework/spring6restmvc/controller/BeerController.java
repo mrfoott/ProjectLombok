@@ -60,7 +60,7 @@ public class BeerController {
 
         HttpHeaders httpHeaders = new HttpHeaders();
 //        httpHeaders.add("Con Moe", "Con Moe");
-        httpHeaders.add("Location", BEER_PATH + "/" + savedBeer.getId());
+        httpHeaders.add("Location", BEER_PATH + "/" + savedBeer.getId().toString());
 
         return new ResponseEntity(httpHeaders, HttpStatus.CREATED);
 
@@ -78,7 +78,7 @@ public class BeerController {
 
         log.debug("Get Beer By Id - in Controller was called!");
 
-        return beerService.getBeerById(beerId);
+        return beerService.getBeerById(beerId).orElseThrow(NotFoundException::new);
 
     }
 
