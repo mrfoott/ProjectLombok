@@ -25,6 +25,9 @@ class BeerRepositoryTest {
 
     }
 
+    void testMergeConflict() {
+
+    }
     void testaaaa() {
 
     }
