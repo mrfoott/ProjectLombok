@@ -1,9 +1,7 @@
 package guru.springframework.spring6restmvc.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import guru.springframework.spring6restmvc.model.Beer;
-import guru.springframework.spring6restmvc.model.Customer;
+import guru.springframework.spring6restmvc.model.CustomerDTO;
 import guru.springframework.spring6restmvc.services.CustomerService;
 import guru.springframework.spring6restmvc.services.CustomerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -53,9 +51,9 @@ public class CustomerControllerTest {
     ArgumentCaptor<UUID> uuidArgumentCaptor;
 
     @Captor
-    ArgumentCaptor<Customer> customerArgumentCaptor;
+    ArgumentCaptor<CustomerDTO> customerArgumentCaptor;
 
-    Customer customer;
+    CustomerDTO customer;
 
     @BeforeEach
     void setUp() {
@@ -112,7 +110,7 @@ public class CustomerControllerTest {
                         .content(objectMapper.writeValueAsString(customer)))
                         .andExpect(status().isNoContent());
 
-        verify(customerService).updateUserById(uuidArgumentCaptor.capture(), any(Customer.class));
+        verify(customerService).updateUserById(uuidArgumentCaptor.capture(), any(CustomerDTO.class));
 
         assertThat(customer.getId()).isEqualTo(uuidArgumentCaptor.getValue());
     }
@@ -125,7 +123,7 @@ public class CustomerControllerTest {
 //        Customer customer = customerServiceImpl.getAllCustomer().get(0);
         customer.setName(null);
 
-        given(customerService.savedNewUser(any(Customer.class))).willReturn(customerServiceImpl.getAllCustomer().get(0));
+        given(customerService.savedNewUser(any(CustomerDTO.class))).willReturn(customerServiceImpl.getAllCustomer().get(0));
 
         mockMvc.perform(post(CustomerController.CUSTOMER_PATH)
                 .accept(MediaType.APPLICATION_JSON)

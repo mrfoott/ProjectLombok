@@ -1,6 +1,6 @@
 package guru.springframework.spring6restmvc.controller;
 
-import guru.springframework.spring6restmvc.model.Customer;
+import guru.springframework.spring6restmvc.model.CustomerDTO;
 import guru.springframework.spring6restmvc.services.CustomerService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @PatchMapping(CUSTOMER_ID_PATH)
-    public ResponseEntity updateUserPatchById(@PathVariable("userId") UUID userId, @RequestBody Customer customer) {
+    public ResponseEntity updateUserPatchById(@PathVariable("userId") UUID userId, @RequestBody CustomerDTO customer) {
 
         customerService.patchUserById(userId, customer);
 
@@ -42,21 +42,21 @@ public class CustomerController {
 
 //    @RequestMapping(method = RequestMethod.GET)
     @GetMapping(CUSTOMER_PATH)
-    public List<Customer> listCustomers() {
+    public List<CustomerDTO> listCustomers() {
         return customerService.getAllCustomer();
     }
 
     @GetMapping(value = CUSTOMER_ID_PATH)
-    public Customer getCustomerById(@PathVariable("userId") UUID userId) {
+    public CustomerDTO getCustomerById(@PathVariable("userId") UUID userId) {
 
         return customerService.getUserById(userId).orElseThrow(NotFoundException::new);
 
     }
 
     @PostMapping(CUSTOMER_PATH)
-    public ResponseEntity handlePost(@RequestBody Customer customer) {
+    public ResponseEntity handlePost(@RequestBody CustomerDTO customer) {
 
-        Customer savedCustomer = customerService.savedNewUser(customer);
+        CustomerDTO savedCustomer = customerService.savedNewUser(customer);
 
         HttpHeaders httpHeaders = new HttpHeaders();
 //        httpHeaders.add("Con Moe", "Con Moe");
@@ -67,7 +67,7 @@ public class CustomerController {
     }
 
     @PutMapping(CUSTOMER_ID_PATH)
-    public ResponseEntity updateById(@PathVariable("userId") UUID userId, @RequestBody Customer customer) {
+    public ResponseEntity updateById(@PathVariable("userId") UUID userId, @RequestBody CustomerDTO customer) {
         customerService.updateUserById(userId, customer);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
