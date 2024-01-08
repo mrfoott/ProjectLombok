@@ -34,7 +34,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .name("Foot")
                 .version(1)
                 .createdDate(LocalDateTime.now())
-                .lastModifiedDay(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
                 .build();
 
         CustomerDTO customer2 = CustomerDTO.builder()
@@ -42,7 +42,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .name("Kor")
                 .version(1)
                 .createdDate(LocalDateTime.now())
-                .lastModifiedDay(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
                 .build();
 
         CustomerDTO customer3 = CustomerDTO.builder()
@@ -50,7 +50,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .name("Ngoc")
                 .version(1)
                 .createdDate(LocalDateTime.now())
-                .lastModifiedDay(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
                 .build();
 
         customerMap = new HashMap<>();
@@ -76,7 +76,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .name(customer.getName())
                 .version(customer.getVersion())
                 .createdDate(LocalDateTime.now())
-                .lastModifiedDay(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
                 .build();
 
         customerMap.put(savedCustomer.getId(), savedCustomer);
