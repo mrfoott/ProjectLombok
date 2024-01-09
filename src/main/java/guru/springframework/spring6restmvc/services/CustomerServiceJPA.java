@@ -40,8 +40,11 @@ public class CustomerServiceJPA implements CustomerService {
     }
 
     @Override
-    public void updateUserById(UUID id, CustomerDTO customer) {
-
+    public void updateUserById(UUID id, CustomerDTO customerDTO) {
+        customerRepository.findById(id).ifPresent(foundCustomer -> {
+            foundCustomer.setName(customerDTO.getName());
+            customerRepository.save(foundCustomer);
+        });
     }
 
     @Override

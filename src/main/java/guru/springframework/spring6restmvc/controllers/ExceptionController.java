@@ -1,8 +1,4 @@
-package guru.springframework.spring6restmvc.controller;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+package guru.springframework.spring6restmvc.controllers;
 
 //@ControllerAdvice
 // Add annotation @ControllerAdvice will allow to have a global exception handler and handle it globally!!!

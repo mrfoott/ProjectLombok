@@ -1,8 +1,7 @@
-package guru.springframework.spring6restmvc.controller;
+package guru.springframework.spring6restmvc.controllers;
 
-import guru.springframework.spring6restmvc.entities.Beer;
 import guru.springframework.spring6restmvc.entities.Customer;
-import guru.springframework.spring6restmvc.model.BeerDTO;
+import guru.springframework.spring6restmvc.mappers.CustomerMapper;
 import guru.springframework.spring6restmvc.model.CustomerDTO;
 import guru.springframework.spring6restmvc.repositories.CustomerRepository;
 import jakarta.transaction.Transactional;
@@ -10,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
 
@@ -27,6 +27,26 @@ class CustomerControllerIntegrationTest {
 
     @Autowired
     CustomerRepository customerRepository;
+
+    @Autowired
+    CustomerMapper customerMapper;
+
+    @Test
+    void updateExistingCustomer() {
+        Customer customer = customerRepository.findAll().get(0);
+        CustomerDTO customerDTO = customerMapper.customerToCustomerDto(customer);
+        customerDTO.setId(null);
+        customerDTO.setVersion(null);
+        final String name = "BBBBBBBBBBBBBBBBBBBBBBBBBBBBB";
+        customerDTO.setName(name);
+
+        ResponseEntity responseEntity = customerController.updateById(customer.getId(), customerDTO);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
+
+        Customer updatedCustomer = customerRepository.findById(customer.getId()).get();
+        assertThat(updatedCustomer.getName()).isEqualTo(name);
+
+    }
 
     @Transactional
     @Rollback

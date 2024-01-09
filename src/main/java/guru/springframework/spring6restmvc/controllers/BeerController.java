@@ -1,4 +1,4 @@
-package guru.springframework.spring6restmvc.controller;
+package guru.springframework.spring6restmvc.controllers;
 
 import guru.springframework.spring6restmvc.model.BeerDTO;
 import guru.springframework.spring6restmvc.services.BeerService;
