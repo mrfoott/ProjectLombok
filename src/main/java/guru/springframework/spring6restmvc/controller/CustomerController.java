@@ -60,7 +60,7 @@ public class CustomerController {
 
         HttpHeaders httpHeaders = new HttpHeaders();
 //        httpHeaders.add("Con Moe", "Con Moe");
-        httpHeaders.add("Location", CustomerController.CUSTOMER_PATH + "/" + savedCustomer.getId().toString());
+        httpHeaders.add("Location", CUSTOMER_PATH + "/" + savedCustomer.getId().toString());
 
         return new ResponseEntity(httpHeaders, HttpStatus.CREATED);
 

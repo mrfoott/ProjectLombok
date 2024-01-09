@@ -9,6 +9,8 @@ import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
 
 import java.util.List;
@@ -26,12 +28,24 @@ class CustomerControllerIntegrationTest {
     @Autowired
     CustomerRepository customerRepository;
 
+    @Transactional
+    @Rollback
     @Test
     void savedNewCustomerTest() {
         CustomerDTO customerDTO = CustomerDTO.builder()
                 .name("AAAAAA")
                 .build();
 
+        ResponseEntity responseEntity = customerController.handlePost(customerDTO);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.valueOf(201));
+        assertThat(responseEntity.getHeaders().getLocation()).isNotNull();
+
+        String[] locationUUID = responseEntity.getHeaders().getLocation().getPath().split("/");
+        UUID savedUUID = UUID.fromString(locationUUID[4]);
+
+        Customer customer = customerRepository.findById(savedUUID).get();
+        assertThat(customer).isNotNull();
 
     }
 
