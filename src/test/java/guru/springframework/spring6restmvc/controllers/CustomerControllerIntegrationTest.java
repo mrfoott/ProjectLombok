@@ -2,6 +2,7 @@ package guru.springframework.spring6restmvc.controllers;
 
 import guru.springframework.spring6restmvc.entities.Customer;
 import guru.springframework.spring6restmvc.mappers.CustomerMapper;
+import guru.springframework.spring6restmvc.model.BeerDTO;
 import guru.springframework.spring6restmvc.model.CustomerDTO;
 import guru.springframework.spring6restmvc.repositories.CustomerRepository;
 import jakarta.transaction.Transactional;
@@ -31,8 +32,20 @@ class CustomerControllerIntegrationTest {
     @Autowired
     CustomerMapper customerMapper;
 
+//    @Transactional
+//    @Rollback
+    @Test
+    void testUpdateByIdNotFound() {
+        assertThrows(NotFoundException.class, () -> {
+            customerController.updateById(UUID.randomUUID(), CustomerDTO.builder().build());
+        });
+    }
+
+    @Rollback
+    @Transactional
     @Test
     void updateExistingCustomer() {
+
         Customer customer = customerRepository.findAll().get(0);
         CustomerDTO customerDTO = customerMapper.customerToCustomerDto(customer);
         customerDTO.setId(null);
@@ -48,8 +61,8 @@ class CustomerControllerIntegrationTest {
 
     }
 
-    @Transactional
     @Rollback
+    @Transactional
     @Test
     void savedNewCustomerTest() {
         CustomerDTO customerDTO = CustomerDTO.builder()
@@ -69,8 +82,8 @@ class CustomerControllerIntegrationTest {
 
     }
 
-    @Transactional
     @Rollback
+    @Transactional
     @Test
     void testEmptyCustomerList() {
 

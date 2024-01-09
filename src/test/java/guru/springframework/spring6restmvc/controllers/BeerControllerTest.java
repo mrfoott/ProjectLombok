@@ -104,6 +104,8 @@ class BeerControllerTest {
 
 //        Beer beer = beerServiceImpl.listBeers().get(0);
 
+        given(beerService.updateBeerById(any(), any())).willReturn(Optional.of(beer));
+
         mockMvc.perform(put(BeerController.BEER_ID_PATH, beer.getId())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)

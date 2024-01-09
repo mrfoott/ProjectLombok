@@ -104,6 +104,8 @@ public class CustomerControllerTest {
 
 //        Customer customer = customerServiceImpl.getAllCustomer().get(0);
 
+        given(customerService.updateUserById(any(), any())).willReturn(Optional.of(customer));
+
         mockMvc.perform(put(CustomerController.CUSTOMER_ID_PATH, customer.getId())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)

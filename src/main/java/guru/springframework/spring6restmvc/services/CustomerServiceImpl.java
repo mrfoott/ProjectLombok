@@ -85,13 +85,15 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void updateUserById(UUID id, CustomerDTO customer) {
+    public Optional<CustomerDTO> updateUserById(UUID id, CustomerDTO customer) {
 
         CustomerDTO existing = customerMap.get(id);
 
         existing.setName(customer.getName());
 
         customerMap.put(existing.getId(), existing);
+
+        return Optional.of(existing);
 
     }
 
