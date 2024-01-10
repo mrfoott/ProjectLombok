@@ -32,6 +32,18 @@ class CustomerControllerIntegrationTest {
     @Autowired
     CustomerMapper customerMapper;
 
+    @Test
+    void testDeleteById() {
+
+        Customer customer = customerRepository.findAll().get(0);
+
+        ResponseEntity responseEntity = customerController.deleteById(customer.getId());
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
+
+        assertThat(customerRepository.findById(customer.getId())).isEmpty();
+
+    }
+
 //    @Transactional
 //    @Rollback
     @Test
