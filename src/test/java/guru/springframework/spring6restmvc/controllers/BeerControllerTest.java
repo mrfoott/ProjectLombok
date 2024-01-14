@@ -169,7 +169,7 @@ class BeerControllerTest {
 //                .beerName("asdasd")
 //                .beerStyle(BeerStyle.ROAR)
 //                .upc("asd")
-//                .price(BigDecimal.valueOf(1234))
+//                .price(new BigDecimal(1234))
                 .build();
 
         given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn(beerServiceImpl.listBeers().get(1));
