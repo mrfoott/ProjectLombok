@@ -126,13 +126,30 @@ class BeerControllerTest {
     }
 
     @Test
+    void testUpdateBeerWithMissingField() throws Exception {
+
+//        Beer beer = beerServiceImpl.listBeers().get(0);
+        beer.setBeerName("");
+
+        given(beerService.updateBeerById(any(), any())).willReturn(Optional.of(beer));
+
+        mockMvc.perform(put(BeerController.BEER_ID_PATH, beer.getId())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(beer)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.length()", is(1)));
+
+    }
+
+    @Test
     void testCreateNewBeer() throws Exception {
 //        ObjectMapper objectMapper = new ObjectMapper();
 //        objectMapper.findAndRegisterModules();
 
 //        Beer beer = beerServiceImpl.listBeers().get(0);
-        beer.setBeerStyle(null);
-        beer.setPrice(null);
+//        beer.setBeerStyle(null);
+//        beer.setPrice(null);
 
         given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn(beerServiceImpl.listBeers().get(1));
 
@@ -146,13 +163,13 @@ class BeerControllerTest {
     }
 
     @Test
-    void testCreateBeerWithMissingField() throws Exception {
+    void testCreateBeerWithBlankName() throws Exception {
 
         BeerDTO beerDTO = BeerDTO.builder()
 //                .beerName("asdasd")
-                .beerStyle(BeerStyle.ROAR)
-                .upc("asd")
-                .price(BigDecimal.valueOf(1234))
+//                .beerStyle(BeerStyle.ROAR)
+//                .upc("asd")
+//                .price(BigDecimal.valueOf(1234))
                 .build();
 
         given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn(beerServiceImpl.listBeers().get(1));
@@ -163,7 +180,7 @@ class BeerControllerTest {
                         .content(objectMapper.writeValueAsString(beerDTO)))
                 .andExpect(status().isBadRequest())
 //                For other fields
-                .andExpect(jsonPath("$.length()", is(2)))
+                .andExpect(jsonPath("$.length()", is(6)))
 //                For price field
 //                .andExpect(jsonPath("$.length()", is(1)))
 

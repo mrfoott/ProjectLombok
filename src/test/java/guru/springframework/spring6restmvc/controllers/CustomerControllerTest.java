@@ -142,7 +142,7 @@ public class CustomerControllerTest {
 //        objectMapper.registerModule();
 
 //        Customer customer = customerServiceImpl.getAllCustomer().get(0);
-        customer.setName(null);
+//        customer.setName(null);
 
         given(customerService.savedNewUser(any(CustomerDTO.class))).willReturn(customerServiceImpl.getAllCustomer().get(0));
 
