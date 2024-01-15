@@ -5,7 +5,7 @@ import guru.springframework.spring6restmvc.entities.Beer;
 import guru.springframework.spring6restmvc.mappers.BeerMapper;
 import guru.springframework.spring6restmvc.model.BeerDTO;
 import guru.springframework.spring6restmvc.repositories.BeerRepository;
-import jakarta.transaction.Transactional;
+import static org.hamcrest.core.Is.is;
 import lombok.NonNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +19,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.HashMap;
@@ -30,6 +31,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -59,11 +61,10 @@ class BeerControllerIntegrationTest {
 
     @Test
     void testPatchBeerBadName() throws Exception {
-
         Beer beer = beerRepository.findAll().get(0);
 
         Map<String, Object> beerMap = new HashMap<>();
-        beerMap.put("beerName", "This is a really long name! This is a really long name! This is a really long name! This is a really long name! This is a really long name! This is a really long name! This is a really long name! This is a really long name! This is a really long name! This is a really long name! ");
+        beerMap.put("beerName", "0123456789012345678901234567890123456789012345678901234567890123456789");
 
         mockMvc.perform(patch(BeerController.BEER_ID_PATH, beer.getId())
                         .contentType(MediaType.APPLICATION_JSON)

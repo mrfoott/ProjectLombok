@@ -23,7 +23,7 @@ import java.util.UUID;
 public class Beer {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(length = 36, columnDefinition = "varchar", updatable = false, nullable = false)
     private UUID id;
@@ -34,8 +34,8 @@ public class Beer {
     @NotNull
     @NotBlank
 
-    @Size(max = 100)
-    @Column(length = 100)
+    @Size(max = 50)
+    @Column(length = 50)
     private String beerName;
 
     @NotNull
@@ -43,6 +43,7 @@ public class Beer {
 
     @NotNull
     @NotBlank
+    @Size(max = 255)
     private String upc;
 
     private Integer quantityOnHand;
