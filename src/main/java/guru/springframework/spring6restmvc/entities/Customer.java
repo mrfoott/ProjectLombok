@@ -7,17 +7,16 @@ import org.hibernate.annotations.GenericGenerator;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Builder
-//@Data
 @Getter
 @Setter
+@Builder
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 public class Customer {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(length = 36, columnDefinition = "varchar", updatable = false, nullable = false)
     private UUID id;

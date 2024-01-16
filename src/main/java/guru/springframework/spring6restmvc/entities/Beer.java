@@ -13,13 +13,12 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Builder
-//@Data
 @Getter
 @Setter
+@Builder
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Beer {
 
     @Id
@@ -33,7 +32,6 @@ public class Beer {
 
     @NotNull
     @NotBlank
-
     @Size(max = 50)
     @Column(length = 50)
     private String beerName;
@@ -45,7 +43,6 @@ public class Beer {
     @NotBlank
     @Size(max = 255)
     private String upc;
-
     private Integer quantityOnHand;
 
     @NotNull
