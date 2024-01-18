@@ -2,6 +2,7 @@ package guru.springframework.spring6restmvc.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import guru.springframework.spring6restmvc.entities.Beer;
 import guru.springframework.spring6restmvc.model.BeerDTO;
 import guru.springframework.spring6restmvc.model.BeerStyle;
 import guru.springframework.spring6restmvc.services.BeerService;
@@ -72,10 +73,13 @@ class BeerControllerTest {
     @Test
     void testPatchBeer() throws Exception {
 
-//        Beer beer = beerServiceImpl.listBeers().get(0);
+//        BeerDTO beer = beerServiceImpl.listBeers().get(0);
 
         Map<String, Object> beerMap = new HashMap<>();
         beerMap.put("beerName", "New Name");
+        beerMap.put("beerStyle", "ROAR");
+        beerMap.put("upc", "upc");
+        beerMap.put("price", "123");
 
         mockMvc.perform(patch(BeerController.BEER_ID_PATH, beer.getId())
                         .contentType(MediaType.APPLICATION_JSON)
