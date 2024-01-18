@@ -1,7 +1,7 @@
 package guru.springframework.spring6restmvc.services;
 
 import guru.springframework.spring6restmvc.mappers.BeerMapper;
-import guru.springframework.spring6restmvc.model.BeerDTO;
+import guru.springframework.spring6restmvc.models.BeerDTO;
 import guru.springframework.spring6restmvc.repositories.BeerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;

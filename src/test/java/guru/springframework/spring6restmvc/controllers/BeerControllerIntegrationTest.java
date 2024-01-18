@@ -3,10 +3,10 @@ package guru.springframework.spring6restmvc.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import guru.springframework.spring6restmvc.entities.Beer;
 import guru.springframework.spring6restmvc.mappers.BeerMapper;
-import guru.springframework.spring6restmvc.model.BeerDTO;
+import guru.springframework.spring6restmvc.models.BeerDTO;
 import guru.springframework.spring6restmvc.repositories.BeerRepository;
 import static org.hamcrest.core.Is.is;
-import lombok.NonNull;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
@@ -189,7 +188,7 @@ class BeerControllerIntegrationTest {
 
         List<BeerDTO> beerDTOS = beerController.listBeers();
 
-        assertThat(beerDTOS.size()).isEqualTo(3);
+        assertThat(beerDTOS.size()).isEqualTo(2413);
 
     }
 
