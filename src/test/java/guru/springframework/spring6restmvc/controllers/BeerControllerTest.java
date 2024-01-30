@@ -58,7 +58,7 @@ class BeerControllerTest {
     @BeforeEach
     void setUp() {
         beerServiceImpl = new BeerServiceImpl();
-        beer = beerServiceImpl.listBeers(null).get(0);
+        beer = beerServiceImpl.listBeers(null, null, false).get(0);
     }
 
     BeerDTO beer;
@@ -150,7 +150,7 @@ class BeerControllerTest {
 //        beer.setBeerStyle(null);
 //        beer.setPrice(null);
 
-        given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn(beerServiceImpl.listBeers(null).get(1));
+        given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn(beerServiceImpl.listBeers(null, null, false).get(1));
 
         mockMvc.perform(post(BeerController.BEER_PATH)
                         .accept(MediaType.APPLICATION_JSON)
@@ -171,7 +171,7 @@ class BeerControllerTest {
 //                .price(new BigDecimal(1234))
                 .build();
 
-        given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn(beerServiceImpl.listBeers(null).get(1));
+        given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn(beerServiceImpl.listBeers(null, null, false).get(1));
 
         MvcResult mvcResult = mockMvc.perform(post(BeerController.BEER_PATH)
                         .accept(MediaType.APPLICATION_JSON)
@@ -192,7 +192,7 @@ class BeerControllerTest {
     @Test
     void testListBeers() throws Exception {
 
-        given(beerService.listBeers(null)).willReturn(beerServiceImpl.listBeers(null));
+        given(beerService.listBeers(null, null, false)).willReturn(beerServiceImpl.listBeers(null, null, false));
 
         mockMvc.perform(get(BeerController.BEER_PATH)
                         .accept(MediaType.APPLICATION_JSON))
@@ -214,7 +214,7 @@ class BeerControllerTest {
 
     @Test
     void getBeerListNotFound() throws Exception {
-        given(beerService.listBeers(null)).willThrow(NotFoundException.class);
+        given(beerService.listBeers(null, null, false)).willThrow(NotFoundException.class);
 
         mockMvc.perform(get(BeerController.BEER_PATH))
                 .andExpect(status().isNotFound());
