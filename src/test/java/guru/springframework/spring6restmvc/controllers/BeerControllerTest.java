@@ -58,7 +58,7 @@ class BeerControllerTest {
     @BeforeEach
     void setUp() {
         beerServiceImpl = new BeerServiceImpl();
-        beer = beerServiceImpl.listBeers(null, null, false, 1, 50).get(0);
+        beer = (BeerDTO) beerServiceImpl.listBeers(null, null, false, null, null).getContent().get(0);
     }
 
     BeerDTO beer;
@@ -150,7 +150,7 @@ class BeerControllerTest {
 //        beer.setBeerStyle(null);
 //        beer.setPrice(null);
 
-        given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn(beerServiceImpl.listBeers(null, null, false, 1, 50).get(1));
+        given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn((BeerDTO) beerServiceImpl.listBeers(null, null, false, 1, 50).getContent().get(0));
 
         mockMvc.perform(post(BeerController.BEER_PATH)
                         .accept(MediaType.APPLICATION_JSON)
@@ -171,7 +171,7 @@ class BeerControllerTest {
 //                .price(new BigDecimal(1234))
                 .build();
 
-        given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn(beerServiceImpl.listBeers(null, null, false, 1, 50).get(1));
+        given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn((BeerDTO) beerServiceImpl.listBeers(null, null, false, 1, 50).getContent().get(0));
 
         MvcResult mvcResult = mockMvc.perform(post(BeerController.BEER_PATH)
                         .accept(MediaType.APPLICATION_JSON)
@@ -191,15 +191,14 @@ class BeerControllerTest {
 
     @Test
     void testListBeers() throws Exception {
-
-        given(beerService.listBeers(any(), any(), any(), any(), any())).willReturn(beerServiceImpl.listBeers(null, null, false, 1, 50));
+        given(beerService.listBeers(any(), any() , any(), any(), any()))
+                .willReturn(beerServiceImpl.listBeers(null, null, false, null, null));
 
         mockMvc.perform(get(BeerController.BEER_PATH)
-                        .accept(MediaType.APPLICATION_JSON))
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.length()", is(3)));
-
+                .andExpect(jsonPath("$.content.length()", is(3)));
     }
 
     @Test

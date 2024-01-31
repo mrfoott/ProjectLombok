@@ -5,13 +5,13 @@ import guru.springframework.spring6restmvc.models.BeerStyle;
 import guru.springframework.spring6restmvc.services.BeerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -22,7 +22,6 @@ public class BeerController {
 
     public static final String BEER_PATH = "/api/v1/beer";
     public static final String BEER_ID_PATH = BEER_PATH + "/{beerId}";
-
 
     private final BeerService beerService;
 
@@ -72,12 +71,12 @@ public class BeerController {
 
 //    @RequestMapping(method = RequestMethod.GET)
     @GetMapping(value = BEER_PATH)
-    public List<BeerDTO> listBeers(@RequestParam(required = false) String beerName,
+    public Page<BeerDTO> listBeers(@RequestParam(required = false) String beerName,
                                    @RequestParam(required = false) BeerStyle beerStyle,
                                    @RequestParam(required = false) Boolean showInventory,
                                    @RequestParam(required = false) Integer pageNumber,
                                    @RequestParam(required = false) Integer pageSize){
-        return beerService.listBeers(beerName, beerStyle, showInventory, 1, 50);
+        return beerService.listBeers(beerName, beerStyle, showInventory, pageNumber, pageSize);
     }
 
 //    @RequestMapping(value = BEER_ID_PATH, method = RequestMethod.GET)
