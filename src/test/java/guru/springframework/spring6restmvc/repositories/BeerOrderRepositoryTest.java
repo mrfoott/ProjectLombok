@@ -1,12 +1,14 @@
 package guru.springframework.spring6restmvc.repositories;
 
 import guru.springframework.spring6restmvc.entities.Beer;
+import guru.springframework.spring6restmvc.entities.BeerOrder;
 import guru.springframework.spring6restmvc.entities.Customer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,13 +35,19 @@ class BeerOrderRepositoryTest {
         testCustomer = customerRepository.findAll().get(0);
     }
 
+    @Transactional
     @Test
     void testBeerOrders() {
-        System.out.println(beerOrderRepository.count());
-        System.out.println(customerRepository.count());
-        System.out.println(beerRepository.count());
-        System.out.println(testBeer.getBeerName());
-        System.out.println(testCustomer.getName());
+
+        BeerOrder beerOrder = BeerOrder.builder()
+                .customerRef("Test customer")
+                .customer(testCustomer)
+                .build();
+
+        BeerOrder savedBeerOrder = beerOrderRepository.saveAndFlush(beerOrder);
+
+        System.out.println(savedBeerOrder.getCustomerRef());
+
     }
 
 }
